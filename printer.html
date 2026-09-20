@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Printers &amp; Scanners · Windows 7 Emulator</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <link rel="stylesheet" href="printer/style.css">
+</head>
+<body>
+  <div id="app" class="shell">
+    <header class="topbar">
+      <a href="index.html" class="back">⊞ Windows 7 Emulator</a>
+      <div class="title"><span class="printer-icon">🖨️</span><div><strong>Devices and Printers</strong><small>Control Panel · Wi-Fi Direct</small></div></div>
+      <span class="network" :class="{connected: selectedPrinter}">{{ selectedPrinter ? '● Ready' : '○ No printer selected' }}</span>
+    </header>
+
+    <main class="workspace">
+      <section class="panel hero">
+        <div><p class="eyebrow">WINDOWS 7 PRINTING</p><h1>Print photos, documents and PDF files</h1><p>Choose a Wi-Fi Direct printer or add one by its IP address or name.</p></div>
+        <div class="hero-mark">🖨️</div>
+      </section>
+
+      <section class="panel printers">
+        <div class="section-head"><div><h2>Select a printer</h2><p>Supported Wi-Fi Direct brands: HP, EPSON, Canon and Brother.</p></div><button class="secondary" @click="scan">↻ Scan again</button></div>
+        <div class="printer-grid">
+          <button v-for="printer in printers" :key="printer.id" class="printer-card" :class="{selected: form.printerId === printer.id}" @click="selectPrinter(printer)">
+            <span class="brand-badge" :class="printer.brand.toLowerCase()">{{ printer.brand[0] }}</span>
+            <span class="printer-info"><strong>{{ printer.model }}</strong><small>{{ printer.brand }} · {{ printer.connection }}</small><small>{{ printer.ip }}</small></span>
+            <span class="check">{{ form.printerId === printer.id ? '✓' : '○' }}</span>
+          </button>
+        </div>
+        <p v-if="status" class="status" aria-live="polite">{{ status }}</p>
+      </section>
+
+      <div class="columns">
+        <section class="panel form-panel">
+          <h2>Add a printer</h2><p class="muted">Use an IP address or a printer name, then provide the serial number and country.</p>
+          <form @submit.prevent="addPrinter">
+            <label>Printer brand<select v-model="form.brand"><option>HP</option><option>EPSON</option><option>Canon</option><option>Brother</option></select></label>
+            <label>Printer IP address or name<input v-model.trim="form.address" required placeholder="192.168.1.25 or Office Printer"></label>
+            <label>Serial number<input v-model.trim="form.serial" required placeholder="SN-0000-0000"></label>
+            <label>Country<select v-model="form.country"><option v-for="country in countries" :key="country">{{ country }}</option></select></label>
+            <button class="primary" type="submit">＋ Add printer</button>
+          </form>
+        </section>
+
+        <section class="panel job-panel">
+          <h2>Print a file</h2><p class="muted">Accepted types: photos, documents and PDF.</p>
+          <label class="file-drop"><input type="file" accept="image/*,.pdf,.txt,.doc,.docx,.odt" @change="chooseFile"><span>📂 <b>{{ fileName || 'Choose a file' }}</b><small>Browse this computer</small></span></label>
+          <div class="job-options"><label>Copies<input type="number" min="1" max="99" v-model.number="copies"></label><label>Paper<select v-model="paper"><option>A4</option><option>Letter</option><option>4 × 6 photo</option></select></label></div>
+          <button class="primary print" :disabled="!selectedPrinter || !fileName" @click="printJob">🖨 Print now</button>
+          <p v-if="lastJob" class="job-result">✓ {{ lastJob }}</p>
+        </section>
+      </div>
+
+      <section class="panel details" v-if="selectedPrinter"><h2>Selected printer details</h2><div class="details-grid"><span><b>Device</b>{{ selectedPrinter.model }}</span><span><b>Brand</b>{{ selectedPrinter.brand }}</span><span><b>Address</b>{{ selectedPrinter.ip }}</span><span><b>Serial</b>{{ selectedPrinter.serial }}</span><span><b>Country</b>{{ selectedPrinter.country }}</span><span><b>Wi-Fi Direct</b>Available</span></div></section>
+    </main>
+    <footer>Windows 7 Emulator · Devices and Printers <span>Wi-Fi Direct simulation · {{ time }}</span></footer>
+  </div>
+<script>
+const {createApp}=Vue;
+createApp({data(){return{printers:[],selectedPrinter:null,status:'Loading printer catalog…',fileName:'',file:null,copies:1,paper:'A4',lastJob:'',time:'',countries:['United States','Canada','United Kingdom','Australia','Brazil','Germany','India','Japan'],form:{printerId:'',brand:'HP',address:'',serial:'',country:'United States'}}},async mounted(){this.time=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});try{const response=await fetch('data/printers.json');this.printers=await response.json()}catch(error){this.printers=[{id:'hp-smart-tank-510',brand:'HP',model:'HP Smart Tank 510',connection:'Wi-Fi Direct',ip:'DIRECT-HP-510',serial:'HPST510-DEMO',country:'United States'},{id:'canon-dd-38290',brand:'Canon',model:'Canon DD-38290',connection:'Wi-Fi Direct',ip:'DIRECT-CANON-38290',serial:'CND38290-DEMO',country:'Japan'},{id:'brother-double-1280-1830',brand:'Brother',model:'Brother Double Printer 1280-1830',connection:'Wi-Fi Direct',ip:'DIRECT-BROTHER-1280',serial:'BR12801830-DEMO',country:'United Kingdom'}]}this.status=`${this.printers.length} Wi-Fi Direct printers available. Select one to continue.`},computed:{},methods:{selectPrinter(printer){this.selectedPrinter=printer;this.form.printerId=printer.id;this.status=`${printer.model} selected and ready.`},scan(){this.status='Scanning for HP, EPSON, Canon and Brother Wi-Fi Direct printers…';setTimeout(()=>this.status=`${this.printers.length} Wi-Fi Direct printers found.`,500)},chooseFile(event){this.file=event.target.files[0];this.fileName=this.file?.name||'';this.lastJob=''},addPrinter(){const item={id:`custom-${Date.now()}`,brand:this.form.brand,model:this.form.address,connection:'Wi-Fi Direct · Added manually',ip:this.form.address,serial:this.form.serial,country:this.form.country};this.printers.push(item);this.selectPrinter(item);this.form={printerId:item.id,brand:item.brand,address:'',serial:'',country:item.country}},printJob(){if(!this.selectedPrinter||!this.fileName)return;this.lastJob=`${this.fileName} queued on ${this.selectedPrinter.model} · ${this.copies} cop${this.copies===1?'y':'ies'} · ${this.paper}`;setTimeout(()=>window.print(),100)}}}).mount('#app');
+</script>
+</body>
+</html>

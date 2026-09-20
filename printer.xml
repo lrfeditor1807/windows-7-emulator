@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Device metadata for the Windows 7 Emulator printer integration. -->
+<printers connection="Wi-Fi Direct">
+  <printer brand="HP" model="HP Smart Tank 510" ip="DIRECT-HP-510" serial="HPST510-DEMO" country="United States" />
+  <printer brand="EPSON" model="EPSON Expression Home XP-4100" ip="DIRECT-EPSON-4100" serial="EPXP4100-DEMO" country="Canada" />
+  <printer brand="Canon" model="Canon DD-38290" ip="DIRECT-CANON-38290" serial="CND38290-DEMO" country="Japan" />
+  <printer brand="Brother" model="Brother Double Printer 1280-1830" ip="DIRECT-BROTHER-1280" serial="BR12801830-DEMO" country="United Kingdom" />
+</printers>

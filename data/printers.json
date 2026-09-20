@@ -1,0 +1,6 @@
+[
+  {"id":"hp-smart-tank-510","brand":"HP","model":"HP Smart Tank 510","connection":"Wi-Fi Direct","ip":"DIRECT-HP-510","serial":"HPST510-DEMO","country":"United States"},
+  {"id":"epson-expression-home-xp-4100","brand":"EPSON","model":"EPSON Expression Home XP-4100","connection":"Wi-Fi Direct","ip":"DIRECT-EPSON-4100","serial":"EPXP4100-DEMO","country":"Canada"},
+  {"id":"canon-dd-38290","brand":"Canon","model":"Canon DD-38290","connection":"Wi-Fi Direct","ip":"DIRECT-CANON-38290","serial":"CND38290-DEMO","country":"Japan"},
+  {"id":"brother-double-1280-1830","brand":"Brother","model":"Brother Double Printer 1280-1830","connection":"Wi-Fi Direct","ip":"DIRECT-BROTHER-1280","serial":"BR12801830-DEMO","country":"United Kingdom"}
+]
