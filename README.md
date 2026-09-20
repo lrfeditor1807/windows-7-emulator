@@ -1,23 +1,19 @@
 # Windows 7 Emulator
 
-A browser-based Windows 7-inspired desktop emulator built with HTML, CSS, and JavaScript. It includes a glass-style desktop, Start menu search, taskbar-pinned applications, draggable windows, and a Personalization experience.
+A browser-based Windows 7-inspired desktop emulator built with HTML, CSS, JavaScript, and optional Ruby helpers.
 
-## Personalization
+## TV Cast & Photo Booth
 
-Open [`personalization.html`](personalization.html) for the full Windows 7-style Personalization panel. It loads theme definitions from [`data/personalization.json`](data/personalization.json), previews wallpapers, lets you choose an accent color, and saves the selection with `localStorage`.
+Open [`tv-cast.html`](tv-cast.html) for the TV casting and screen mirroring workspace. It includes:
 
-For local development, Ruby is optional. If Ruby is installed, run:
+- Samsung TV and LG TV Wi-Fi Direct destinations.
+- Roku Express, Roku Express 4K, Fire TV Stick, Chromecast, and Motorola/Lenovo/TCL Android TV destinations.
+- Screen sharing through the browser `getDisplayMedia()` API where supported.
+- A TV remote with ◀️ ▶️ 🆗 🔼 🔽 🎤 🎙️ 🔊 📷 📸 and streaming-service buttons.
+- Microphone speech recognition and keyboard input using `AÁÀÃBCÇDEFGHIJKLMNÑOÒÓPQRSẞTUÛÚVWXYZ1234567890`.
+- Photo Booth source selection, camera/media file selection, and effects: Normal, Colorful, Rainbow, Invert, Hue, Spectrum, and Bomb Explosion.
 
-```bash
-ruby personalization.rb
-```
-
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/personalization.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/mediacenter>. GitHub Pages can serve the HTML and JSON directly without a build step.
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/settings.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/aero.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/screen-mirroring.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
-Then visit <https://lrfeditor1807.github.io/windows-7-emulator/viewsonic-projector>. GitHub Pages can serve the HTML and JSON directly without a build step.
+This is a browser UI and capability demo. A normal web page cannot directly perform native Wi-Fi Direct pairing or send proprietary remote commands to every TV; those actions require the TV's supported receiver protocol or a companion native app. Camera, microphone, and screen sharing require user permission and usually HTTPS.
 
 ## Existing emulator
 
