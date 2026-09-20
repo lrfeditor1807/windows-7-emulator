@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aero Peek &amp; Aero Shake | Windows 7 Emulator</title>
+  <style>
+    :root { color-scheme: light; font-family: "Segoe UI", Tahoma, sans-serif; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; overflow: hidden; }
+    body { background: #176d9f url('https://lrfeditor1807.github.io/WallpaperPack/win7/Windows/img0.jpg') center/cover fixed; color: #17334a; }
+    .desktop { min-height: 100vh; padding: 18px; position: relative; }
+    .hint { width: min(680px, calc(100vw - 36px)); margin: 0 auto; padding: 13px 18px; color: #fff; text-align: center; text-shadow: 0 1px 2px #124; background: #0c4779b8; border: 1px solid #bfeaff99; border-radius: 9px; box-shadow: 0 8px 26px #002b4c66; backdrop-filter: blur(7px); }
+    .hint strong { color: #ffe57d; }
+    .windows { position: relative; width: min(920px, calc(100vw - 36px)); height: min(610px, calc(100vh - 148px)); margin: 28px auto 0; }
+    .window { position: absolute; width: 360px; min-height: 215px; overflow: hidden; border: 1px solid #194b72; border-radius: 8px 8px 3px 3px; background: #f6fbffef; box-shadow: 0 12px 35px #002b4c99, inset 0 0 0 1px #ffffff99; transition: opacity .22s, filter .22s, transform .12s; }
+    .window:nth-child(1) { left: 5%; top: 8%; transform: rotate(-1deg); }
+    .window:nth-child(2) { left: 35%; top: 30%; transform: rotate(1deg); }
+    .window:nth-child(3) { left: 58%; top: 4%; transform: rotate(-.5deg); }
+    .titlebar { height: 37px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 12px; color: #fff; font-weight: 600; background: linear-gradient(#78bff0, #256fae 48%, #174f89 52%, #438fc7); }
+    .controls { display: flex; gap: 4px; }
+    .controls button { width: 27px; height: 23px; border: 1px solid #bce5ff; border-radius: 3px; color: #fff; background: #337eb9aa; cursor: pointer; }
+    .controls button:last-child { background: #ae2632; }
+    .content { padding: 14px; line-height: 1.45; }
+    .content h2 { margin: 0 0 7px; color: #1c5b8d; font-size: 20px; }
+    .content p { margin: 6px 0; }
+    .file { display: inline-block; margin-top: 10px; padding: 9px 12px; border: 1px solid #a9bfd0; border-radius: 4px; background: linear-gradient(#fff, #e2eff8); }
+    .file::before { content: '📄'; margin-right: 7px; }
+    .peek .window:not(.peek-target) { opacity: .07; filter: blur(1px); }
+    .peek .window.peek-target { opacity: 1; filter: none; z-index: 5; }
+    .shake { animation: shake .08s linear 9; }
+    @keyframes shake { 0%,100% { transform: translate(0,0) rotate(0); } 25% { transform: translate(-9px,2px) rotate(-1deg); } 50% { transform: translate(8px,-2px) rotate(1deg); } 75% { transform: translate(-5px,1px) rotate(-.5deg); } }
+    .bomb { position: fixed; z-index: 20; pointer-events: none; font-size: clamp(64px, 12vw, 130px); animation: explode .85s ease-out forwards; }
+    @keyframes explode { 0% { opacity: 0; transform: scale(.2) rotate(-20deg); } 30% { opacity: 1; transform: scale(1.25) rotate(8deg); } 100% { opacity: 0; transform: scale(2.1) rotate(20deg); } }
+    .toast { position: fixed; left: 50%; bottom: 28px; z-index: 30; transform: translateX(-50%); padding: 10px 16px; color: #fff; background: #083e69dd; border: 1px solid #bdeaff; border-radius: 18px; box-shadow: 0 4px 18px #002b4c88; opacity: 0; transition: opacity .2s; }
+    .toast.show { opacity: 1; }
+    @media (max-width: 700px) { .windows { height: calc(100vh - 175px); } .window { width: 290px; } .window:nth-child(1) { left: 0; } .window:nth-child(2) { left: 18%; top: 34%; } .window:nth-child(3) { left: 30%; top: 7%; } }
+  </style>
+</head>
+<body>
+  <main id="desktop" class="desktop">
+    <div class="hint"><strong>Aero Peek:</strong> hold <b>Ctrl</b> and click the Computer desktop icon, or press <b>Ctrl + ←/→</b> on the shuffle dice 🎲 &nbsp;·&nbsp; <strong>Aero Shake:</strong> press <b>Ctrl + K + L</b> on the shuffle bomb 💣</div>
+    <section id="windows" class="windows" aria-label="Open Windows">
+      <article class="window" data-window="computer"><header class="titlebar"><span>💻 Computer</span><span class="controls"><button aria-label="Minimize">—</button><button aria-label="Close">×</button></span></header><div class="content"><h2>Computer</h2><p>Local Disk (C:) &nbsp; 128 GB free</p><span class="file">Users</span> <span class="file">Program Files</span></div></article>
+      <article class="window" data-window="documents"><header class="titlebar"><span>📁 Documents</span><span class="controls"><button aria-label="Minimize">—</button><button aria-label="Close">×</button></span></header><div class="content"><h2>My Documents</h2><p>Your files and folders appear here.</p><span class="file">Aero notes.txt</span></div></article>
+      <article class="window" data-window="welcome"><header class="titlebar"><span>🪟 Welcome Center</span><span class="controls"><button aria-label="Minimize">—</button><button aria-label="Close">×</button></span></header><div class="content"><h2>Windows 7 Emulator</h2><p>Try the classic glass effects with the keyboard shortcuts above.</p><p>Peek makes other windows transparent. Shake gives the desktop a playful wobble.</p></div></article>
+    </section>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script>
+    (() => {
+      const desktop = document.getElementById('desktop');
+      const windows = [...document.querySelectorAll('.window')];
+      const toast = document.getElementById('toast');
+      let peekIndex = 0;
+      const say = (message) => { toast.textContent = message; toast.classList.add('show'); clearTimeout(say.timer); say.timer = setTimeout(() => toast.classList.remove('show'), 1500); };
+      const peek = (step = 1) => {
+        peekIndex = (peekIndex + step + windows.length) % windows.length;
+        desktop.classList.add('peek');
+        windows.forEach((win, index) => win.classList.toggle('peek-target', index === peekIndex));
+        say(`Aero Peek: ${windows[peekIndex].dataset.window}`);
+      };
+      const shake = () => {
+        desktop.classList.remove('shake'); void desktop.offsetWidth; desktop.classList.add('shake');
+        const bomb = document.createElement('span'); bomb.className = 'bomb'; bomb.textContent = '💣💥'; bomb.style.left = `${35 + Math.random() * 30}%`; bomb.style.top = `${25 + Math.random() * 35}%`; document.body.appendChild(bomb); setTimeout(() => bomb.remove(), 900); say('Aero Shake activated!');
+      };
+      desktop.addEventListener('mouseleave', () => { desktop.classList.remove('peek'); windows.forEach(win => win.classList.remove('peek-target')); });
+      let keys = new Set();
+      document.addEventListener('keydown', event => {
+        keys.add(event.key.toLowerCase());
+        if (event.ctrlKey && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) { event.preventDefault(); peek(event.key === 'ArrowLeft' ? -1 : 1); }
+        if (event.ctrlKey && keys.has('k') && keys.has('l')) { event.preventDefault(); shake(); keys.clear(); }
+      });
+      document.addEventListener('keyup', event => keys.delete(event.key.toLowerCase()));
+      document.addEventListener('click', event => {
+        const close = event.target.closest('.controls button:last-child');
+        if (close) { close.closest('.window').hidden = true; say('Window closed'); }
+        if (event.ctrlKey && event.target.closest('[data-window="computer"]')) peek(1);
+      });
+    })();
+  </script>
+</body>
+</html>
