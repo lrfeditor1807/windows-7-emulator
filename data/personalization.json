@@ -1,0 +1,26 @@
+{
+  "themes": [
+    {
+      "id": "windows",
+      "name": "Windows 7",
+      "wallpaper": "https://lrfeditor1807.github.io/WallpaperPack/win7/Windows/img0.jpg",
+      "accent": "#2f80c0",
+      "description": "Aero blue with the classic Windows 7 desktop background."
+    },
+    {
+      "id": "landscape",
+      "name": "Landscapes",
+      "wallpaper": "https://lrfeditor1807.github.io/WallpaperPack/win7/Landscape/img0.jpg",
+      "accent": "#287c58",
+      "description": "Relaxing scenic wallpapers in a fresh green palette."
+    },
+    {
+      "id": "characters",
+      "name": "Characters",
+      "wallpaper": "https://lrfeditor1807.github.io/WallpaperPack/win7/Characters/img21.jpg",
+      "accent": "#8d4c91",
+      "description": "Colorful character artwork with a playful purple accent."
+    }
+  ],
+  "solidColors": ["#1682b5", "#1f6c50", "#6c3f7c", "#8d5a2b", "#252b38", "#f0f3f6"]
+}

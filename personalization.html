@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personalization · Windows 7</title>
+  <style>
+    :root { --accent:#2f80c0; --ink:#17344a; --muted:#587084; --panel:#f7fbff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); font:14px "Segoe UI",Tahoma,sans-serif; background:#eaf2f8; }
+    .chrome { min-height:100vh; background:linear-gradient(120deg,#dcecf8 0%,#fff 46%,#d7e9f6 100%); }
+    header { padding:22px max(24px,calc((100% - 1120px)/2)); color:#fff; background:linear-gradient(120deg,#28699f,#5eafe1); box-shadow:0 2px 8px #315d7a77; }
+    header .crumb { opacity:.85; font-size:13px; margin-bottom:10px; } h1 { margin:0; font-size:27px; font-weight:400; text-shadow:1px 1px 2px #19517e; }
+    main { width:min(1120px,calc(100% - 32px)); margin:22px auto 42px; display:grid; grid-template-columns:280px 1fr; gap:20px; }
+    .sidebar,.panel { background:#ffffffd9; border:1px solid #abc4d5; border-radius:6px; box-shadow:0 3px 12px #4f779622; }
+    .sidebar { padding:15px; align-self:start; } .sidebar h2 { margin:2px 0 14px; font-size:17px; font-weight:400; }
+    .nav { display:flex; gap:10px; align-items:center; width:100%; padding:11px 10px; border:0; border-radius:4px; color:var(--ink); background:transparent; text-align:left; cursor:pointer; }
+    .nav:hover,.nav.active { background:#d5ecfb; color:#084f84; } .nav span { font-size:20px; width:25px; text-align:center; }
+    .panel { padding:22px; } .intro { display:flex; justify-content:space-between; align-items:start; gap:16px; border-bottom:1px solid #cfdee8; padding-bottom:14px; }
+    h2 { margin:0 0 5px; color:#24577d; font-size:20px; font-weight:400; } p { margin:5px 0; color:var(--muted); } .hint { font-size:12px; }
+    .preview { height:225px; margin:18px 0; position:relative; overflow:hidden; border:5px solid #fff; border-radius:5px; box-shadow:0 2px 8px #42637a66; background:center/cover; transition:background-image .25s; }
+    .preview-bar { position:absolute; right:0; bottom:0; left:0; padding:7px 12px; color:#fff; background:#0c426bba; } .preview-bar b { font-weight:600; }
+    .section-title { display:flex; align-items:center; justify-content:space-between; margin:20px 0 10px; } .section-title h3 { margin:0; font-size:16px; font-weight:400; }
+    .theme-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; } .theme-card { padding:0; overflow:hidden; border:1px solid #abc5d6; border-radius:5px; background:#fff; text-align:left; cursor:pointer; }
+    .theme-card:hover,.theme-card.selected { border:2px solid var(--accent); box-shadow:0 0 0 2px #74b8e455; } .thumb { height:85px; background:center/cover; } .theme-card strong,.theme-card small { display:block; padding:8px 10px 0; } .theme-card small { padding-top:2px; padding-bottom:10px; color:var(--muted); }
+    .colors { display:flex; flex-wrap:wrap; gap:8px; } .swatch { width:30px; height:30px; border:2px solid #fff; border-radius:50%; box-shadow:0 1px 3px #345; cursor:pointer; } .swatch.selected { outline:2px solid var(--accent); outline-offset:2px; }
+    .actions { display:flex; justify-content:flex-end; gap:8px; margin-top:24px; padding-top:15px; border-top:1px solid #cfdee8; } button.action { padding:8px 18px; border:1px solid #7d9eb4; border-radius:3px; color:#173d58; background:linear-gradient(#fff,#d6e8f4); cursor:pointer; } button.action.primary { color:#fff; border-color:#1d5e91; background:linear-gradient(#5eb2e9,#2470a7); } button.action:hover { filter:brightness(1.05); }
+    .status { min-height:20px; margin-top:10px; color:#287041; font-size:12px; } @media(max-width:720px){ main{grid-template-columns:1fr}.sidebar{display:flex;flex-wrap:wrap;gap:5px}.sidebar h2{width:100%}.nav{width:auto}.preview{height:180px} }
+  </style>
+</head>
+<body>
+  <div class="chrome">
+    <header><div class="crumb">Control Panel › Appearance and Personalization</div><h1>Personalization</h1></header>
+    <main>
+      <aside class="sidebar"><h2>See also</h2><button class="nav active"><span>🎨</span>Desktop Background</button><button class="nav"><span>🪟</span>Window Color</button><button class="nav"><span>🔊</span>Sounds</button><button class="nav"><span>🖱️</span>Mouse Pointers</button></aside>
+      <section class="panel">
+        <div class="intro"><div><h2>Change the visuals and sounds on your computer</h2><p>Choose a theme to personalize your desktop background.</p></div><div aria-label="Personalization icon" style="font-size:37px">🎨</div></div>
+        <div id="preview" class="preview"><div class="preview-bar"><b id="previewName">Windows 7</b><span id="previewDescription"> · Aero blue desktop</span></div></div>
+        <div class="section-title"><h3>My Themes</h3><span class="hint">Changes are saved to this browser</span></div><div id="themes" class="theme-grid" aria-live="polite"></div>
+        <div class="section-title"><h3>Desktop background color</h3></div><div id="colors" class="colors" aria-label="Desktop background colors"></div>
+        <div id="status" class="status" role="status"></div>
+        <div class="actions"><button class="action" id="cancel">Cancel</button><button class="action primary" id="save">Save changes</button></div>
+      </section>
+    </main>
+  </div>
+<script>
+  const state = { theme: null, color: null, saved: JSON.parse(localStorage.getItem('win7-personalization') || 'null') };
+  const $ = id => document.getElementById(id);
+  async function loadThemes() {
+    const response = await fetch('data/personalization.json');
+    const data = await response.json();
+    state.data = data; state.theme = data.themes.find(t => t.id === (state.saved && state.saved.theme)) || data.themes[0]; state.color = (state.saved && state.saved.color) || data.solidColors[0];
+    $('themes').innerHTML = data.themes.map(t => `<button class="theme-card" data-theme="${t.id}"><div class="thumb" style="background-image:url('${t.wallpaper}')"></div><strong>${t.name}</strong><small>${t.description}</small></button>`).join('');
+    $('colors').innerHTML = data.solidColors.map(c => `<button class="swatch" data-color="${c}" style="background:${c}" aria-label="${c}"></button>`).join('');
+    $('themes').addEventListener('click', e => { const card = e.target.closest('[data-theme]'); if (card) { state.theme = data.themes.find(t => t.id === card.dataset.theme); render(); } });
+    $('colors').addEventListener('click', e => { if (e.target.dataset.color) { state.color = e.target.dataset.color; render(); } }); render();
+  }
+  function render() { document.documentElement.style.setProperty('--accent', state.theme.accent); $('preview').style.backgroundImage = `url('${state.theme.wallpaper}')`; $('previewName').textContent = state.theme.name; $('previewDescription').textContent = ` · ${state.theme.description}`; document.body.style.backgroundColor = state.color; document.querySelectorAll('.theme-card').forEach(e => e.classList.toggle('selected', e.dataset.theme === state.theme.id)); document.querySelectorAll('.swatch').forEach(e => e.classList.toggle('selected', e.dataset.color === state.color)); }
+  $('save').onclick = () => { localStorage.setItem('win7-personalization', JSON.stringify({theme:state.theme.id,color:state.color})); $('status').textContent = 'Your personalization settings have been saved.'; };
+  $('cancel').onclick = () => { state.theme = state.data.themes.find(t => t.id === (state.saved && state.saved.theme)) || state.data.themes[0]; state.color = (state.saved && state.saved.color) || state.data.solidColors[0]; $('status').textContent = 'Changes canceled.'; render(); };
+  loadThemes().catch(() => $('status').textContent = 'Could not load theme data. Run the Ruby server or open the repository on GitHub Pages.');
+</script>
+</body>
+</html>
