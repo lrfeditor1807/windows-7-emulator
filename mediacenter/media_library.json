@@ -1,0 +1,19 @@
+{
+  "music": [
+    {"id":"song-1","icon":"🎵","title":"Windows 7 Theme","artist":"Microsoft","album":"Media Center"},
+    {"id":"song-2","icon":"🎵","title":"Digital Dreams","artist":"Windows Media","album":"Favorites"},
+    {"id":"song-3","icon":"🎵","title":"Evening Chill","artist":"Media Center","album":"Relax"}
+  ],
+  "tv": [
+    {"id":"tv-1","icon":"📺","title":"Recorded TV","subtitle":"Your recorded programs"},
+    {"id":"tv-2","icon":"📡","title":"Live TV","subtitle":"Connect a tuner to watch"}
+  ],
+  "movies": [
+    {"id":"movie-1","icon":"🎬","title":"Movie Library","subtitle":"Browse your collection"},
+    {"id":"movie-2","icon":"🍿","title":"Internet TV","subtitle":"Online entertainment"}
+  ],
+  "photos": [
+    {"id":"photo-1","icon":"📷","title":"Picture Library","subtitle":"View your favorite photos"},
+    {"id":"photo-2","icon":"🌄","title":"Slide Show","subtitle":"Start a photo slideshow"}
+  ]
+}
