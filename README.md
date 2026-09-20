@@ -17,7 +17,7 @@ Then visit <https://lrfeditor1807.github.io/windows-7-emulator/mediacenter>. Git
 Then visit <https://lrfeditor1807.github.io/windows-7-emulator/settings.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
 Then visit <https://lrfeditor1807.github.io/windows-7-emulator/aero.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
 Then visit <https://lrfeditor1807.github.io/windows-7-emulator/screen-mirroring.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
-
+Then visit <https://lrfeditor1807.github.io/viewsonic-projector>. GitHub Pages can serve the HTML and JSON directly without a build step.
 
 ## Existing emulator
 
