@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Windows 7 Emulator projector integration manifest. -->
+<projector id="viewsonic-projector" brand="ViewSonic" title="ViewSonic Projector" version="1.0.0">
+  <source id="photo-booth" title="Photo Booth" camera="true" photo="true" video="true" />
+  <source id="screen-mirroring" title="Screen Mirroring" />
+  <destination id="projector" title="ViewSonic PX701" protocol="wifi-direct" />
+  <destination id="tv" title="Living Room TV" protocol="cast" />
+  <effects>Normal,Colorful,Rainbow,Invert,Hue,Spectrum,Bomb Explosion</effects>
+</projector>

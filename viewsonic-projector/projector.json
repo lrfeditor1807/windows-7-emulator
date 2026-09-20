@@ -1,0 +1,10 @@
+{
+  "name": "ViewSonic Projector",
+  "platform": "Windows 7 Emulator",
+  "version": "1.0.0",
+  "destinations": ["ViewSonic PX701", "Living Room TV", "Office display", "HDMI projector"],
+  "effects": ["Normal", "Colorful", "Rainbow", "Invert", "Hue", "Spectrum", "Bomb Explosion"],
+  "services": ["NETFLIX", "YOUTUBE", "AMAZON PRIME VIDEO", "MOVISTAR TV", "GUIDE TV", "WEB BROWSER"],
+  "remoteButtons": ["◀️", "▶️", "🆗", "🔼", "🔽", "🎤", "🎙️", "🔊", "📷", "📸"],
+  "keyboard": "AÁÀÃBCÇDEFGHIJKLMNÑOÒÓPQRSẞTUÛÚVWXYZ1234567890"
+}

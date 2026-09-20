@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ViewSonic Projector · Windows 7 Emulator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+</head>
+<body>
+  <div id="app" class="projector-shell">
+    <header class="topbar">
+      <a class="back" href="../index.html">⊞ Windows 7 Emulator</a>
+      <div class="brand"><span class="brand-mark">▰</span><span>ViewSonic <b>Projector</b></span></div>
+      <span class="connection" :class="{online: connected}">{{ connected ? '● Connected' : '○ Ready to connect' }}</span>
+    </header>
+
+    <main class="workspace">
+      <section class="stage panel">
+        <div class="stage-head"><div><p class="eyebrow">SCREEN MIRRORING</p><h1>{{ activeTitle }}</h1></div><span class="resolution">{{ effect }} · 1080p</span></div>
+        <div class="screen" :class="'effect-' + effect.toLowerCase().replace(' ', '-')">
+          <video ref="cameraVideo" autoplay muted playsinline v-show="cameraOn"></video>
+          <img v-if="selectedImage && !cameraOn" :src="selectedImage" alt="Selected photo">
+          <div v-if="!cameraOn && !selectedImage" class="idle-screen"><span class="projector-glyph">▣</span><strong>ViewSonic</strong><small>Select a photo, video, camera, or app to project</small></div>
+          <div class="screen-label" v-if="connected">LIVE · {{ destination }}</div>
+        </div>
+        <div class="transport"><button @click="previous">◀️</button><button class="play" @click="togglePlayback">{{ playing ? '⏸' : '▶️' }}</button><button @click="next">▶️</button><button @click="volume = Math.min(100, volume + 10)">🔊</button><input v-model="volume" type="range" min="0" max="100" aria-label="Volume"><span>{{ volume }}%</span></div>
+      </section>
+
+      <aside class="remote panel">
+        <div class="panel-title"><span>📡</span><div><h2>Remote control</h2><small>ViewSonic PX-series</small></div></div>
+        <div class="dpad"><button @click="previous">◀️</button><button @click="selectSource">🆗</button><button @click="next">▶️</button><button @click="effect = previousEffect">🔼</button><button @click="effect = nextEffect">🔽</button></div>
+        <div class="remote-row"><button @click="startVoice">🎤</button><button @click="recording ? stopRecording() : startRecording()">{{ recording ? '⏹️' : '🎙️' }}</button><button @click="capturePhoto">📷</button><button @click="openPicker">📸</button></div>
+        <div class="remote-row services"><button v-for="service in services" :key="service" @click="launchService(service)">{{ service }}</button></div>
+        <div class="remote-status" aria-live="polite">{{ status }}</div>
+      </aside>
+
+      <section class="library panel"><div class="panel-title"><span>🗂️</span><div><h2>Project to TV or projector</h2><small>Choose a source and destination</small></div></div>
+        <div class="tabs"><button v-for="tab in tabs" :key="tab.id" :class="{active: source === tab.id}" @click="source = tab.id">{{ tab.icon }} {{ tab.label }}</button></div>
+        <div class="source-actions"><button class="primary" @click="openPicker">📁 Select camera, photos &amp; videos</button><button @click="toggleCamera">{{ cameraOn ? '⏹ Stop camera' : '📷 Photo Booth camera' }}</button><input ref="fileInput" type="file" accept="image/*,video/*" multiple hidden @change="loadFiles"></div>
+        <div v-if="source === 'photo-booth'" class="effects"><span>Photo Booth effects:</span><button v-for="item in effects" :key="item" :class="{active: effect === item}" @click="effect = item">{{ item }}</button></div>
+        <div v-if="files.length" class="file-list"><button v-for="file in files" :key="file.id" @click="selectFile(file)">{{ file.kind === 'image' ? '🖼️' : '🎞️' }} {{ file.name }}</button></div>
+        <div class="destinations"><button v-for="item in destinations" :key="item.name" :class="{selected: destination === item.name}" @click="connect(item)"><span>{{ item.icon }}</span><strong>{{ item.name }}</strong><small>{{ item.type }}</small></button></div>
+      </section>
+
+      <section class="voice panel"><div class="panel-title"><span>🎤</span><div><h2>Microphone &amp; keyboard</h2><small>Voice notes and remote input</small></div></div><div class="voice-input"><button @click="startVoice">🎤 Speak</button><input v-model="voiceText" @keydown.enter="sendVoice" placeholder="AÁÀÃBCÇDEFGHIJKLMNÑOÒÓPQRSẞTUÛÚVWXYZ1234567890"><button @click="sendVoice">Send</button></div><p class="transcript">{{ transcript || 'Voice transcript will appear here.' }}</p></section>
+    </main>
+    <footer>Windows 7 Emulator · ViewSonic Projector <span>Network: {{ connected ? 'Connected' : 'Available' }} · {{ time }}</span></footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
