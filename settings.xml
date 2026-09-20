@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML template for the Windows 7 Control Panel settings manifest. -->
+<controlPanel id="windows-7-settings" title="Windows 7 Control Panel" version="1.0.0">
+  <category id="personalization" icon="🎨" title="Personalization" data="data/settings.json" />
+  <category id="sound" icon="🔊" title="Sound" data="data/settings.json" />
+  <category id="system" icon="🛡️" title="System" data="data/settings.json" />
+</controlPanel>

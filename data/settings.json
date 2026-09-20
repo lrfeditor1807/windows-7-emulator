@@ -1,0 +1,40 @@
+{
+  "application": "Windows 7 Control Panel",
+  "version": "1.0.0",
+  "defaultCategory": "personalization",
+  "categories": [
+    {
+      "id": "personalization",
+      "title": "Personalization",
+      "icon": "🎨",
+      "description": "Change the appearance and sounds on your computer.",
+      "settings": [
+        {"id":"wallpaper","label":"Desktop background","type":"select","options":["Windows 7","Landscapes","Characters"]},
+        {"id":"color","label":"Window color","type":"color","value":"#2f80c0"},
+        {"id":"transparency","label":"Enable Aero transparency","type":"checkbox","value":true}
+      ]
+    },
+    {
+      "id": "sound",
+      "title": "Sound",
+      "icon": "🔊",
+      "description": "Configure playback, recording, and system sound preferences.",
+      "settings": [
+        {"id":"volume","label":"Master volume","type":"range","min":0,"max":100,"value":72},
+        {"id":"device","label":"Playback device","type":"select","options":["Speakers (High Definition Audio)","Headphones"]},
+        {"id":"mute","label":"Mute all sounds","type":"checkbox","value":false}
+      ]
+    },
+    {
+      "id": "system",
+      "title": "System",
+      "icon": "🛡️",
+      "description": "View basic computer information and system protection settings.",
+      "settings": [
+        {"id":"computerName","label":"Computer name","type":"text","value":"WIN7-EMULATOR"},
+        {"id":"updates","label":"Install updates automatically","type":"checkbox","value":true},
+        {"id":"restore","label":"Create a restore point","type":"button","action":"restore"}
+      ]
+    }
+  ]
+}
