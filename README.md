@@ -14,6 +14,8 @@ ruby personalization.rb
 
 Then visit <https://lrfeditor1807.github.io/windows-7-emulator/personalization.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
 Then visit <https://lrfeditor1807.github.io/windows-7-emulator/mediacenter>. GitHub Pages can serve the HTML and JSON directly without a build step.
+Then visit <https://lrfeditor1807.github.io/windows-7-emulator/settings.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
+
 
 ## Existing emulator
 
