@@ -12,7 +12,8 @@ For local development, Ruby is optional. If Ruby is installed, run:
 ruby personalization.rb
 ```
 
-Then visit <http://localhost:4567/personalization.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
+Then visit <https://lrfeditor1807.github.io/windows-7-emulator/personalization.html>. GitHub Pages can serve the HTML and JSON directly without a build step.
+Then visit <https://lrfeditor1807.github.io/windows-7-emulator/mediacenter>. GitHub Pages can serve the HTML and JSON directly without a build step.
 
 ## Existing emulator
 
