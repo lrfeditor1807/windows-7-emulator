@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Screen Mirroring - Windows 7 Emulator</title>
+  <style>
+    :root { --blue:#246da5; --deep:#0c3150; --line:#a9c4d8; --soft:#edf5fb; --text:#19344a; --green:#23854a; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--text); font:13px "Segoe UI",Tahoma,sans-serif; background:radial-gradient(circle at 20% 0%,#bde9ff 0,#65b5dd 30%,#125c93 75%,#082e50 100%); }
+    button,select { font:inherit; cursor:pointer; }
+    .shell { max-width:1100px; min-height:100vh; margin:auto; padding:30px 18px; }
+    .window { overflow:hidden; border:1px solid #194d74; border-radius:8px 8px 4px 4px; background:#f7fbffed; box-shadow:0 14px 45px #002b4c88, inset 0 1px #fff; }
+    .titlebar { display:flex; align-items:center; justify-content:space-between; min-height:40px; padding:5px 9px 5px 14px; color:#fff; background:linear-gradient(#7cc3f0,#2d78b9 50%,#1a5b99 52%,#438bc3); text-shadow:1px 1px #174265; }
+    .title { display:flex; align-items:center; gap:9px; font-weight:bold; font-size:14px; }
+    .title .logo { display:grid; place-items:center; width:25px; height:25px; border:1px solid #c9eeff; border-radius:5px; background:linear-gradient(135deg,#dcf8ff,#2580bf); font-size:17px; }
+    .window-buttons { display:flex; gap:4px; } .window-buttons button { width:25px; height:22px; border:1px solid #b6dcf2; border-radius:3px; color:white; background:linear-gradient(#92d0f3,#2878b8); } .window-buttons button:last-child { background:linear-gradient(#ed9999,#ae1d2b); }
+    .content { padding:24px; }
+    .hero { display:flex; align-items:flex-start; justify-content:space-between; gap:22px; padding:20px; border:1px solid #8db8d3; border-radius:6px; color:#fff; background:linear-gradient(120deg,#155d92,#3a9bca); box-shadow:inset 0 1px #ffffff66; }
+    h1 { margin:0 0 7px; font-size:26px; } h2 { margin:0 0 5px; color:#23567d; font-size:18px; } p { margin:5px 0; } .hero p { color:#e9f8ff; } .hero-mark { min-width:76px; text-align:center; font-size:58px; filter:drop-shadow(2px 3px 2px #164b70); }
+    .toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:12px 0; } .toolbar button,.select { border:1px solid #8aa9be; border-radius:4px; padding:8px 13px; color:#173d59; background:linear-gradient(#fff,#dcecf7); box-shadow:0 1px 1px #7893a544; } .toolbar button:hover { background:#c8e8fa; } .primary { color:#fff !important; border-color:#205f8d !important; background:linear-gradient(#63b5e7,#1f699f) !important; text-shadow:1px 1px #174c72; }
+    .layout { display:grid; grid-template-columns:1.35fr .8fr; gap:16px; margin-top:16px; } .panel { padding:16px; border:1px solid var(--line); border-radius:5px; background:#fff; box-shadow:0 1px 3px #43718a22; } .panel-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:11px; }
+    .devices { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; } .device { position:relative; display:flex; align-items:center; gap:11px; min-height:75px; padding:11px; border:1px solid #b3c9d8; border-radius:5px; text-align:left; color:var(--text); background:linear-gradient(#fff,#edf6fc); } .device:hover,.device.selected { border-color:#3587bd; background:#dff2ff; box-shadow:0 0 0 2px #83c7ea66; } .device.selected:after { position:absolute; top:7px; right:8px; content:'✓'; color:var(--green); font-weight:bold; } .device-icon { display:grid; place-items:center; width:37px; height:37px; border-radius:5px; background:#d4e9f7; font-size:22px; } .device strong,.device small { display:block; } .device small { margin-top:3px; color:#647b8d; }
+    .preview { display:grid; place-items:center; min-height:178px; margin-top:8px; overflow:hidden; border:1px solid #274d6a; border-radius:4px; color:#a9e6ff; background:radial-gradient(circle,#194c6c,#071b2c); text-align:center; } .preview .screen { width:78%; padding:22px 8px; border:2px solid #65bfe8; border-radius:5px; box-shadow:0 0 20px #4ac7ff77; } .preview .screen b { display:block; margin-bottom:5px; font-size:23px; color:#e9fbff; } video { display:none; width:100%; height:100%; object-fit:contain; background:#071b2c; }
+    .status { display:flex; align-items:center; gap:7px; margin-top:12px; padding:9px 11px; border:1px solid #b6cbd9; border-radius:3px; background:#edf5fa; } .dot { width:9px; height:9px; border-radius:50%; background:#8b9ba6; } .dot.online { background:#35a55c; box-shadow:0 0 6px #35a55c; } .hint { margin-top:12px; color:#617789; font-size:12px; line-height:1.45; }
+    .footer { display:flex; justify-content:space-between; margin-top:16px; padding-top:12px; border-top:1px solid #bfd3e1; color:#577286; } .badge { padding:4px 8px; border:1px solid #9eb8c9; border-radius:10px; background:#f3f9fd; }
+    .toast { position:fixed; right:20px; bottom:20px; display:none; max-width:330px; padding:12px 15px; border:1px solid #245b80; border-radius:5px; color:white; background:#15567e; box-shadow:0 4px 14px #00304c88; } .toast.show { display:block; }
+    @media(max-width:760px){ .shell{padding:10px 6px}.content{padding:14px}.hero{padding:15px}.layout{grid-template-columns:1fr}.devices{grid-template-columns:1fr 1fr} .hero-mark{font-size:42px;min-width:50px} }
+    @media(max-width:430px){ .devices{grid-template-columns:1fr} .window-buttons button:first-child,.window-buttons button:nth-child(2){display:none} }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="window" aria-label="Screen Mirroring">
+      <header class="titlebar">
+        <div class="title"><span class="logo">▣</span> Screen Mirroring</div>
+        <div class="window-buttons"><button title="Minimize">−</button><button title="Maximize">□</button><button title="Close" onclick="history.back()">×</button></div>
+      </header>
+      <div class="content">
+        <section class="hero"><div><h1>Duplicate your screen</h1><p>Stream this Windows 7 desktop to a TV, projector or other compatible display.</p><div class="toolbar"><button class="primary" id="scan">🔎 Scan for devices</button><button id="share">▣ Choose a screen</button></div></div><div class="hero-mark">▣<br><span style="font-size:21px">➜ 📺</span></div></section>
+        <div class="layout">
+          <section class="panel"><div class="panel-heading"><h2>Available displays</h2><span class="badge" id="found">8 devices</span></div><div class="devices" id="devices"></div><p class="hint">Select a display, then click <b>Start mirroring</b>. Your browser may ask permission to share this screen.</p></section>
+          <section class="panel"><h2>Mirror preview</h2><div class="preview" id="preview"><div class="screen"><b>Ready to mirror</b><span>Select a device to begin.</span></div><video id="video" autoplay muted></video></div><div class="status"><span class="dot" id="dot"></span><span id="status">Not connected</span></div><div class="toolbar"><button class="primary" id="start" disabled>▶ Start mirroring</button><button id="stop" disabled>■ Stop</button></div><label>Image quality <select class="select" id="quality"><option>Automatic</option><option>720p (recommended)</option><option>1080p</option></select></label></section>
+        </div>
+        <footer class="footer"><span>Windows 7 Emulator · Screen Mirroring</span><span id="network">Network: Checking…</span></footer>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const displays=[
+      ['📡','Chromecast','Google Cast receiver','TV'],['▣','Android TV','Living room display','TV'],['◉','Samsung TV','Smart TV · Tizen','TV'],['▣','LG TV','webOS television','TV'],
+      ['▤','Roku','Streaming player','TV'],['🔥','Amazon Fire TV','Fire TV Stick','TV'],['📺','Other TV','Wireless display','TV'],['📽️','ViewSonic projector','Office projector','Projector'],['📽️','Samsung projector','Wireless projector','Projector'],['📽️','EPSON projector','Meeting room projector','Projector']
+    ];
+    let chosen=null, stream=null;
+    const $=id=>document.getElementById(id);
+    function render(){ $('devices').innerHTML=displays.map((d,i)=>`<button class="device ${chosen===i?'selected':''}" data-id="${i}"><span class="device-icon">${d[0]}</span><span><strong>${d[1]}</strong><small>${d[2]}</small></span></button>`).join(''); $('found').textContent=displays.length+' devices'; document.querySelectorAll('.device').forEach(b=>b.onclick=()=>select(+b.dataset.id)); }
+    function select(i){ chosen=i; render(); $('start').disabled=false; $('status').textContent=displays[i][1]+' selected'; toast(displays[i][1]+' is ready to connect.'); }
+    function toast(message){ $('toast').textContent=message; $('toast').classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3200); }
+    async function start(){ if(chosen===null)return; try { if(!navigator.mediaDevices?.getDisplayMedia) throw new Error('unsupported'); stream=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true}); $('video').srcObject=stream; $('video').style.display='block'; $('preview').querySelector('.screen').style.display='none'; stream.getVideoTracks()[0].addEventListener('ended',stop); } catch(e) { $('status').textContent='Demo connection active'; $('preview').querySelector('.screen').innerHTML='<b>Mirroring active</b><span>Live preview is simulated in this emulator.</span>'; } $('dot').classList.add('online'); $('status').textContent='Mirroring to '+displays[chosen][1]; $('start').disabled=true; $('stop').disabled=false; toast('Connected to '+displays[chosen][1]); }
+    function stop(){ if(stream){stream.getTracks().forEach(t=>t.stop());stream=null;} $('video').style.display='none'; $('preview').querySelector('.screen').style.display='block'; $('preview').querySelector('.screen').innerHTML='<b>Ready to mirror</b><span>Select a device to begin.</span>'; $('dot').classList.remove('online'); $('status').textContent=chosen===null?'Not connected':displays[chosen][1]+' selected'; $('start').disabled=chosen===null; $('stop').disabled=true; }
+    $('scan').onclick=()=>{ $('scan').textContent='⟳ Scanning…'; setTimeout(()=>{render();$('scan').textContent='🔎 Scan for devices';toast('Scan complete. Compatible displays found.');},900); }; $('start').onclick=start; $('stop').onclick=stop; $('share').onclick=async()=>{if(navigator.mediaDevices?.getDisplayMedia){try{await navigator.mediaDevices.getDisplayMedia({video:true});toast('Screen sharing permission granted. Select a display to mirror.');}catch(e){toast('Screen sharing was cancelled.');}}else toast('Screen capture is not supported in this browser.');}; $('network').textContent='Network: Ready'; render();
+  </script>
+</body>
+</html>
